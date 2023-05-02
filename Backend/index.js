@@ -1,7 +1,10 @@
 const express=require("express");
 const { chats } = require("./Data/data");
+const cors=require("cors");
 
 const app=express();
+
+app.use(cors());
 
 require('dotenv').config()
 
