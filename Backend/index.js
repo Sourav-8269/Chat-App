@@ -2,6 +2,8 @@ const express=require("express");
 const { chats } = require("./Data/data");
 const cors=require("cors");
 
+const { connection } = require("./Configs/db");
+
 const app=express();
 
 app.use(cors());
@@ -21,8 +23,9 @@ app.get("/chats/:id",(req,res)=>{
     res.send(SingleChat);
 })
 
-app.listen(process.env.port,()=>{
+app.listen(process.env.port,async ()=>{
     try{
+        await connection;
         console.log("Connected to DB");
     }catch(err){
         console.log("Something went wrong");
