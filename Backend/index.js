@@ -4,7 +4,11 @@ const cors=require("cors");
 
 const { connection } = require("./Configs/db");
 
+const { UserRouter } = require("./Routes/User.route");
+
 const app=express();
+
+app.use(express.json());
 
 app.use(cors());
 
@@ -22,6 +26,8 @@ app.get("/chats/:id",(req,res)=>{
     let SingleChat=chats.find((el)=>el._id==req.params.id);
     res.send(SingleChat);
 })
+
+app.use("/users",UserRouter);
 
 app.listen(process.env.port,async ()=>{
     try{
