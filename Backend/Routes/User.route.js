@@ -59,7 +59,7 @@ UserRouter.post("/login",async (req,res)=>{
             bcrypt.compare(password, hash, (err,result)=>{
                 // console.log(result,hash)
                 if(result){
-                    res.send({"msg":"Login Successfully","token":token})
+                    res.send({user,"msg":"Login Successfully","token":token})
                 }else{
                     res.send("Password is Wrong");
                 }

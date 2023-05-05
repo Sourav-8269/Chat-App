@@ -12,9 +12,10 @@ import {
   Heading,
   Text,
   useColorModeValue,
+  useToast,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import axios from "axios";
 
@@ -24,9 +25,45 @@ export default function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate=useNavigate();
+  const toast=useToast();
 
   const handleSubmit = () => {
-    axios.post();
+    console.log(name,email,password)
+    const payload={name,email,password};
+    if(name==""&&email==""&&password==""){
+      toast({
+        title: "Please Enter all Fields",
+        status: "info",
+        duration: 2000,
+        isClosable: true,
+        position:"top"
+      });
+      return;
+    }
+    setLoading(true);
+    axios.post("http://localhost:8080/users/register",payload)
+    .then((res)=>{
+      toast({
+        title: "Registered Successfully",
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+        position:"top"
+      });
+      setLoading(false)
+      navigate("/login")
+    })
+    .catch((err)=>{
+      setLoading(false)
+      toast({
+        title: "Something Went Wrong",
+        status: "warning",
+        duration: 2000,
+        isClosable: true,
+        position:"top"
+      });
+    })
   };
 
   return (
@@ -88,6 +125,7 @@ export default function Register() {
             </FormControl>
             <Stack spacing={10} pt={2}>
               <Button
+                isLoading={loading}
                 loadingText="Submitting"
                 size="lg"
                 bg={"blue.400"}
@@ -95,6 +133,7 @@ export default function Register() {
                 _hover={{
                   bg: "blue.500",
                 }}
+                onClick={handleSubmit}
               >
                 Sign up
               </Button>
