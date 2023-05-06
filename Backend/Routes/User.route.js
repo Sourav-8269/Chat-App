@@ -85,4 +85,22 @@ UserRouter.patch("/edit/:id",async (req,res)=>{
     }
 })
 
+UserRouter.get("/search", async (req, res) => {
+    // console.log(req.query.q)
+    try {
+        let data=await userModel.find({
+            "$or":[
+                {name:{$regex:req.query.q}},
+                {email:{$regex:req.query.q}}
+            ]
+          })
+          res.send(data)
+          
+        
+        
+    } catch (error) {
+        console.log(error)
+    }
+})
+
 module.exports={UserRouter};
