@@ -4,7 +4,10 @@ const cors=require("cors");
 
 const { connection } = require("./Configs/db");
 
+const {authenticate}=require("./Middlewares/authenticate.middleware")
+
 const { UserRouter } = require("./Routes/User.route");
+const { ChatRouter } = require("./Routes/Chat.route");
 
 const app=express();
 
@@ -18,16 +21,11 @@ app.get("/",(req,res)=>{
     res.send("Welcome to My App");
 })
 
-app.get("/chats",(req,res)=>{
-    res.send(chats)
-})
-
-app.get("/chats/:id",(req,res)=>{
-    let SingleChat=chats.find((el)=>el._id==req.params.id);
-    res.send(SingleChat);
-})
-
 app.use("/users",UserRouter);
+
+app.use(authenticate)
+
+app.use("/chats",ChatRouter);
 
 app.listen(process.env.port,async ()=>{
     try{
