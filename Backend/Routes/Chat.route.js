@@ -9,9 +9,25 @@ const ChatRouter=express.Router();
 const {chatModel}=require("../Models/chat.model");
 const { userModel } = require("../Models/user.model");
 
-ChatRouter.get("/",(req,res)=>{
+ChatRouter.get("/",async(req,res)=>{
     // console.log(req.body)
-    res.send(chats)
+    try{
+        chatModel.find({users:{$elemMatch:{$eq:req.body.userID}}})
+        .populate("users","-password")
+        .populate("groupAdmin","-password")
+        .populate("recentMessage")
+        .sort({updatedAt:-1})
+        .then(async(result)=>{
+            result=await userModel.populate(result,{
+                path:"recentMessage.sender",
+                select:"name profile email"
+            })
+            res.send(result)
+        });
+    }catch(err){
+        res.status(400);
+        throw new Error(err.message);
+    }
 })
 
 ChatRouter.post("/",async (req,res)=>{
