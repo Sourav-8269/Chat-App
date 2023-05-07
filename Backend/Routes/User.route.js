@@ -23,13 +23,13 @@ UserRouter.post("/userbyemail",async (req,res)=>{
 
 UserRouter.post("/register",async(req,res)=>{
     // console.log(req.body);
-    const {name,email,password}=req.body;
+    const {name,email,password,pic}=req.body;
     try{
         await bcrypt.hash(password, 5, (err,result)=>{
            if(result){
                // console.log(result)
                 
-                const user=new userModel({name,email,password:result});
+                const user=new userModel({name,email,password:result,pic});
                 user.save();
                 res.send("Registered Successfully")
            }else{
