@@ -81,6 +81,12 @@ ChatRouter.post("/",async (req,res)=>{
 
 })
 
+ChatRouter.post("/addGroup",(req,res)=>{
+    if(req.body.users&&req.body.name){
+        
+    }
+})
+
 ChatRouter.get("/:id",(req,res)=>{
     let SingleChat=chats.find((el)=>el._id==req.params.id);
     res.send(SingleChat);
