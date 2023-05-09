@@ -81,9 +81,32 @@ ChatRouter.post("/",async (req,res)=>{
 
 })
 
-ChatRouter.post("/addGroup",(req,res)=>{
+ChatRouter.post("/addGroup",async(req,res)=>{
     if(req.body.users&&req.body.name){
-        
+        return res.send({msg:"Please send all details"});
+    }
+
+    let users=req.body.users;
+    if(users.length<2){
+        res.send("More than 2 users are required to create a group chat");
+    }
+    users.push(req.body.userID);
+    
+    try {
+        const groupChat=await chatModel.create({
+            chatName:req.body.name,
+            users:users,
+            isGroupChat:true,
+            groupAdmin:req.body.userID
+        })
+
+        const fullgroupChat=await chatModel.findOne({_id:groupChat._id})
+        .populate("users","-password")
+        .populate("groupAdmin","-password");
+        res.send(fullgroupChat);
+    } catch (error) {
+        res.status(400);
+        throw new Error(err.message);
     }
 })
 
