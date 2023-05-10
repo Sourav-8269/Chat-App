@@ -82,11 +82,12 @@ ChatRouter.post("/",async (req,res)=>{
 })
 
 ChatRouter.post("/addGroup",async(req,res)=>{
-    if(req.body.users&&req.body.name){
+    // console.log(req.body.users,req.body.name)
+    if(req.body.users==undefined&&req.body.name==undefined){
         return res.send({msg:"Please send all details"});
     }
 
-    let users=req.body.users;
+    let users=JSON.parse(req.body.users);
     if(users.length<2){
         res.send("More than 2 users are required to create a group chat");
     }
