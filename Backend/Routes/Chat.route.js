@@ -83,7 +83,7 @@ ChatRouter.post("/",async (req,res)=>{
 
 ChatRouter.post("/addGroup",async(req,res)=>{
     // console.log(req.body.users,req.body.name)
-    if(req.body.users==undefined&&req.body.name==undefined){
+    if(req.body.users==undefined||req.body.name==undefined){
         return res.send({msg:"Please send all details"});
     }
 
@@ -107,7 +107,40 @@ ChatRouter.post("/addGroup",async(req,res)=>{
         res.send(fullgroupChat);
     } catch (error) {
         res.status(400);
-        throw new Error(err.message);
+        throw new Error(error.message);
+    }
+})
+
+ChatRouter.patch("/renameGroup",async(req,res)=>{
+    const {ChatID,chatName}=req.body;
+    if(ChatID==undefined||chatName==undefined){
+        return res.send({msg:"Please send all details"});
+    }
+    const newChat=await chatModel.findByIdAndUpdate(ChatID,{chatName},{new:true})
+    .populate("users","-password")
+    .populate("groupAdmin","-password");
+    // console.log(newChat)
+    if(newChat!=undefined){
+        res.send(newChat);
+    }else{
+        res.status(400);
+        throw new Error("Chat not Found");
+    }
+})
+
+ChatRouter.patch("/addUserToGroup",async(req,res)=>{
+    const {user,ChatID}=req.body;
+    if(user==undefined||ChatID==undefined){
+        return res.send({msg:"Please send all details"});
+    }
+    const newChat=await chatModel.findByIdAndUpdate(ChatID,{$push:{users:user}},{new:true})
+    .populate("users","-password")
+    .populate("groupAdmin","-password");
+    if(newChat!=undefined){
+        res.send(newChat);
+    }else{
+        res.status(400);
+        throw new Error("Chat not Found");
     }
 })
 
