@@ -144,6 +144,22 @@ ChatRouter.patch("/addUserToGroup",async(req,res)=>{
     }
 })
 
+ChatRouter.patch("/removeUserToGroup",async(req,res)=>{
+    const {user,ChatID}=req.body;
+    if(user==undefined||ChatID==undefined){
+        return res.send({msg:"Please send all details"});
+    }
+    const newChat=await chatModel.findByIdAndUpdate(ChatID,{$pull:{users:user}},{new:true})
+    .populate("users","-password")
+    .populate("groupAdmin","-password");
+    if(newChat!=undefined){
+        res.send(newChat);
+    }else{
+        res.status(400);
+        throw new Error("Chat not Found");
+    }
+})
+
 ChatRouter.get("/:id",(req,res)=>{
     let SingleChat=chats.find((el)=>el._id==req.params.id);
     res.send(SingleChat);
