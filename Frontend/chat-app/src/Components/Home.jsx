@@ -1,15 +1,16 @@
-import { Box } from '@chakra-ui/react'
-import React from 'react'
-import Drawer from './Drawer'
+import { Box, useColorModeValue, useColorMode } from "@chakra-ui/react";
+import React from "react";
+import Drawer from "./Drawer";
 
 const Home = () => {
+  const { colorMode, toggleColorMode } = useColorMode();
   return (
     <>
-    <Box>
-      <Drawer/> 
-    </Box>
+      <Box bg={useColorModeValue("#F7FAFC", "gray.900")} height="100vh" >
+        <Drawer />
+      </Box>
     </>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
