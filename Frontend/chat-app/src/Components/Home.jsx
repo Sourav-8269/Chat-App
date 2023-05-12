@@ -1,8 +1,14 @@
+import { Box } from '@chakra-ui/react'
 import React from 'react'
+import Drawer from './Drawer'
 
 const Home = () => {
   return (
-    <div>Home</div>
+    <>
+    <Box>
+      <Drawer/> 
+    </Box>
+    </>
   )
 }
 

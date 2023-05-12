@@ -5,7 +5,6 @@ import {
   FormLabel,
   Input,
   InputGroup,
-  HStack,
   InputRightElement,
   Stack,
   Button,
@@ -75,7 +74,7 @@ export default function Register() {
     >
       <Stack spacing={8} mx={"auto"} w={["32%"]} py={12} px={6}>
         <Stack align={"center"}>
-          <Heading fontSize={"4xl"} textAlign={"center"}>
+          <Heading fontSize={"4xl"} textAlign={"center"} fontFamily={"cursive"} >
             Register
           </Heading>
         </Stack>

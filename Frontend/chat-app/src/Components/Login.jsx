@@ -9,7 +9,6 @@ import {
   Link,
   Button,
   Heading,
-  Text,
   useColorModeValue,
   useToast,
 } from "@chakra-ui/react";
@@ -82,10 +81,7 @@ export default function Login() {
     >
       <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
         <Stack align={"center"}>
-          <Heading fontSize={"4xl"}>Sign in to your account</Heading>
-          <Text fontSize={"lg"} color={"gray.600"}>
-            to enjoy all of our cool <Link color={"blue.400"}>features</Link> ✌️
-          </Text>
+          <Heading fontSize={"4xl"} fontFamily={"cursive"} >Sign in to your account</Heading>
         </Stack>
         <Box
           rounded={"lg"}
